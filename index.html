@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¿Dónde te gustaría pasar un lindo momento?</title>
+  <title>¿Dónde te gustaría pasar un lindo momento? 🎉🎈</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,6 +14,14 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      position: relative;
+    }
+    .image-overlay {
+      position: absolute;
+      top: 150px; /* Ajusta la posición vertical de la imagen */
+      left: 50%; /* Posiciona la imagen en el centro horizontalmente */
+      transform: translateX(-50%); /* Centra la imagen horizontalmente */
+      z-index: -1;
     }
     h1 {
       text-align: center;
@@ -31,6 +39,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      position: relative; /* Para posicionar el texto de la dirección */
     }
     .option:hover {
       background-color: #f0f0f0;
@@ -38,30 +47,151 @@
     .selected {
       background-color: #ffcccc !important;
     }
+    .address {
+      font-size: 12px;
+      color: #666;
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .celebration {
+      animation: celebrate 1s ease;
+    }
+    @keyframes celebrate {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #ffcc00;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-size: 24px;
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .celebrate .message {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .balloon {
+      position: absolute;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      width: 20px;
+      height: 30px;
+      animation: floatUp 4s linear infinite;
+      z-index: -1;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-100px); }
+      100% { transform: translateY(0); }
+    }
+    .confetti {
+      position: absolute;
+      background-color: #ffcc00;
+      width: 10px;
+      height: 10px;
+      animation: fallDown 4s ease infinite;
+      z-index: -1;
+    }
+    @keyframes fallDown {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(800px) rotate(720deg); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>¿Dónde te gustaría pasar un lindo momento?</h1>
+    <h1>¿Dónde te gustaría pasar un lindo momento? 🎉🎈</h1>
     <div class="options">
-      <div class="option" onclick="selectOption('Le coco cafe')">Le coco cafe</div>
-      <div class="option" onclick="selectOption('Crepes & Waffles')">Crepes & Waffles</div>
-      <div class="option" onclick="selectOption('La hamburguesería')">La hamburguesería</div>
+      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/Le+Coco+Caf%C3%A9+-+Chapinero/@4.6365382,-74.0961614,13z/data=!4m10!1m2!2m1!1sle+coco+cafe!3m6!1s0x8e3f9b508e104d83:0x5c598517b10d5258!8m2!3d4.6521084!4d-74.0559409!15sCgxsZSBjb2NvIGNhZmVaDiIMbGUgY29jbyBjYWZlkgEKcmVzdGF1cmFudOABAA!16s%2Fg%2F11mhscl91_?entry=ttu')">🎈🍕☕️ Le coco cafe
+        <div class="address">Cra. 6 #69a-23</div>
+      </div>
+      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/Crepes+%26+Waffles+Centro+Comercial+Galerias/@4.6428885,-74.0740344,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9a3460301343:0xeb4f73d13fa1685f!8m2!3d4.6428885!4d-74.0740344!16s%2Fg%2F1tjtk9tl?entry=ttu')">🎈🥞 Crepes & Waffles
+        <div class="address">Cra. 24 #53-73</div>
+      </div>
+      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/La+Hamburgueseria+Soledad/@4.6322037,-74.0758744,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9a2ca41e0fe9:0xbbec587ab25f9403!8m2!3d4.6322037!4d-74.0758744!16s%2Fg%2F1tf9twdm?entry=ttu')">🎈🍔 La hamburguesería
+        <div class="address">Cra. 25 #41-64</div>
+      </div>
     </div>
+    <img src="https://d22fxaf9t8d39k.cloudfront.net/e581cdc4d59ba54efbeb4a088ea72cb9661c3887576fc168edbb3717197f452541804.png" alt="Imagen" class="image-overlay">
+    <div id="message" class="message">¡Excelente decisión! 🎈</div>
+    <div id="balloons"></div>
+    <div id="confetti"></div>
   </div>
 
   <script>
-    function selectOption(option) {
-      // Enviar la selección del usuario al servidor
-      sendSelection(option);
+    function redirectTo(url) {
+      window.location.href = url;
     }
 
-    function sendSelection(option) {
-      // Enviar la selección al servidor utilizando AJAX
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/selection', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({ selection: option }));
+    function selectOption(option) {
+      // Agregar clase de celebración y mostrar mensaje
+      var selectedOption = document.querySelector('.selected');
+      if (selectedOption) {
+        selectedOption.classList.remove('selected');
+      }
+      var selectedElement = document.querySelector(`.option:nth-of-type(${optionIndex(option)})`);
+      selectedElement.classList.add('selected');
+      selectedElement.classList.add('celebration');
+      showCelebrationMessage();
+      showBalloonsAndConfetti();
+    }
+
+    function optionIndex(option) {
+      switch (option) {
+        case 'Le coco cafe':
+          return 1;
+        case 'Crepes & Waffles':
+          return 2;
+        case 'La hamburguesería':
+          return 3;
+        default:
+          return 0;
+      }
+    }
+
+    function showCelebrationMessage() {
+      var messageElement = document.getElementById('message');
+      messageElement.classList.add('celebrate');
+      setTimeout(function() {
+        messageElement.classList.remove('celebrate');
+      }, 3000);
+    }
+
+    function showBalloonsAndConfetti() {
+      var balloonsContainer = document.getElementById('balloons');
+      var confettiContainer = document.getElementById('confetti');
+      balloonsContainer.innerHTML = '';
+      confettiContainer.innerHTML = '';
+      for (var i = 0; i < 10; i++) {
+        var balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        var positionLeft = Math.floor(Math.random() * 100);
+        var positionTop = Math.floor(Math.random() * 100);
+        balloon.style.left = positionLeft + 'vw';
+        balloon.style.top = positionTop + 'vh';
+        balloonsContainer.appendChild(balloon);
+      }
+      for (var j = 0; j < 50; j++) {
+        var confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        var positionLeft = Math.floor(Math.random() * 100);
+        var positionTop = Math.floor(Math.random() * 100);
+        confetti.style.left = positionLeft + 'vw';
+        confetti.style.top = positionTop + 'vh';
+        confettiContainer.appendChild(confetti);
+      }
     }
   </script>
 </body>
