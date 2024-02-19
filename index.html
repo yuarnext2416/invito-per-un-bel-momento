@@ -55,14 +55,6 @@
       left: 50%;
       transform: translateX(-50%);
     }
-    .celebration {
-      animation: celebrate 1s ease;
-    }
-    @keyframes celebrate {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
     .message {
       position: absolute;
       top: 50%;
@@ -114,55 +106,33 @@
   <div class="container">
     <h1>¿Dónde te gustaría pasar un lindo momento? 🎉🎈</h1>
     <div class="options">
-      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/Le+Coco+Caf%C3%A9+-+Chapinero/@4.6365382,-74.0961614,13z/data=!4m10!1m2!2m1!1sle+coco+cafe!3m6!1s0x8e3f9b508e104d83:0x5c598517b10d5258!8m2!3d4.6521084!4d-74.0559409!15sCgxsZSBjb2NvIGNhZmVaDiIMbGUgY29jbyBjYWZlkgEKcmVzdGF1cmFudOABAA!16s%2Fg%2F11mhscl91_?entry=ttu')">🎈🍕☕️ Le coco cafe
+      <div class="option" onclick="selectOption('Le coco cafe')">🍕🎈 Le coco cafe
         <div class="address">Cra. 6 #69a-23</div>
       </div>
-      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/Crepes+%26+Waffles+Centro+Comercial+Galerias/@4.6428885,-74.0740344,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9a3460301343:0xeb4f73d13fa1685f!8m2!3d4.6428885!4d-74.0740344!16s%2Fg%2F1tjtk9tl?entry=ttu')">🎈🥞 Crepes & Waffles
+      <div class="option" onclick="selectOption('Crepes & Waffles')">🥞🎈 Crepes & Waffles
         <div class="address">Cra. 24 #53-73</div>
       </div>
-      <div class="option" onclick="redirectTo('https://www.google.com/maps/place/La+Hamburgueseria+Soledad/@4.6322037,-74.0758744,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9a2ca41e0fe9:0xbbec587ab25f9403!8m2!3d4.6322037!4d-74.0758744!16s%2Fg%2F1tf9twdm?entry=ttu')">🎈🍔 La hamburguesería
+      <div class="option" onclick="selectOption('La hamburguesería')">🍔🎈 La hamburguesería
         <div class="address">Cra. 25 #41-64</div>
       </div>
     </div>
+    <div class="message">¡Excelente decisión! 🎈</div>
+    <div class="response">
+        ¿Qué sería la vida si no tuviéramos el valor de intentar algo nuevo?: <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=SHEi1DBJBk-LqghF_1flQSbJlPl0kulLn8L7qnPIRJZUNTFJQ0EwVEcwUU1VNE5VNjBFMktYNFU1WC4u" target="_blank">¡Intentémoslo! 
+    </div>
     <img src="https://d22fxaf9t8d39k.cloudfront.net/e581cdc4d59ba54efbeb4a088ea72cb9661c3887576fc168edbb3717197f452541804.png" alt="Imagen" class="image-overlay">
-    <div id="message" class="message">¡Excelente decisión! 🎈</div>
     <div id="balloons"></div>
     <div id="confetti"></div>
   </div>
 
   <script>
-    function redirectTo(url) {
-      window.location.href = url;
-    }
-
     function selectOption(option) {
-      // Agregar clase de celebración y mostrar mensaje
-      var selectedOption = document.querySelector('.selected');
-      if (selectedOption) {
-        selectedOption.classList.remove('selected');
-      }
-      var selectedElement = document.querySelector(`.option:nth-of-type(${optionIndex(option)})`);
-      selectedElement.classList.add('selected');
-      selectedElement.classList.add('celebration');
       showCelebrationMessage();
       showBalloonsAndConfetti();
     }
 
-    function optionIndex(option) {
-      switch (option) {
-        case 'Le coco cafe':
-          return 1;
-        case 'Crepes & Waffles':
-          return 2;
-        case 'La hamburguesería':
-          return 3;
-        default:
-          return 0;
-      }
-    }
-
     function showCelebrationMessage() {
-      var messageElement = document.getElementById('message');
+      var messageElement = document.querySelector('.message');
       messageElement.classList.add('celebrate');
       setTimeout(function() {
         messageElement.classList.remove('celebrate');
